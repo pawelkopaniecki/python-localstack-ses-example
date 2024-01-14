@@ -1,0 +1,41 @@
+version: '3.2'
+
+services:
+  localstack:
+      image: localstack/localstack:2.3.1
+      ports:
+        - '4566-4597:4566-4597'
+      environment:
+        - LOCALSTACK_HOST=localstack
+        - SERVICES=ses
+        - AWS_ACCESS_KEY_ID=dummy
+        - AWS_SECRET_ACCESS_KEY=dummy
+        - AWS_DEFAULT_REGION=eu-west-1
+        - DOCKER_HOST=unix:///var/run/docker.sock
+      volumes:
+        - "../resources/init.sh:/etc/localstack/init/ready.d/init.sh"
+        - "/var/run/docker.sock:/var/run/docker.sock"
+      healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:4566/_localstack/health"]
+        interval: 10s
+        timeout: 10s
+        retries: 5
+        start_period: 10s
+
+  ses:
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+    ports:
+      - 80:80
+    environment:
+      - DOCKER=True
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/api/v1/ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 45s
+    depends_on:
+      localstack:
+        condition: service_healthy
