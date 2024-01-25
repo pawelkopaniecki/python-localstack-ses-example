@@ -7,7 +7,7 @@ app = FastAPI()
 
 
 @app.get("/api/v1/ping", status_code=200)
-async def email_route(email: EmailSchema):
+async def email_route():
     return { "message": "Email service is running" }
 
 @app.post("/api/v1/email/send", status_code=201)
