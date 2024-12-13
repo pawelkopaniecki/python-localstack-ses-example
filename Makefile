@@ -1,5 +1,5 @@
 run:
-	uvicorn src.main:app --port 80 --reload
+	uvicorn src.main:app --port 8080 --reload
 
 docker-run:
 	docker compose -f ./docker/compose.yaml up -d --build 
