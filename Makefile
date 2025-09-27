@@ -6,3 +6,12 @@ docker-run:
 
 add-permissions:
 	chmod +x ./resources/init.sh
+
+format:
+	ruff format
+
+lint-check:
+	ruff check
+
+lint-fix:
+	ruff check --fix
