@@ -27,7 +27,12 @@ services:
     ports:
       - 80:80
     environment:
-      - DOCKER=True
+      - ENVIRONMENT=development
+      - AWS_ENDPOINT_URL=http://localstack:4566
+      - AWS_ACCESS_KEY_ID=dummy
+      - AWS_SECRET_ACCESS_KEY=dummy
+      - AWS_REGION=eu-west-1
+      - SENDER_EMAIL_ADDRESS=test@test.test
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:80/api/v1/ping"]
       interval: 30s

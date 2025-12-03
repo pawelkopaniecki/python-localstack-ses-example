@@ -1,5 +1,0 @@
-fastapi==0.115.6
-pydantic==2.10.3
-mypy-boto3-ses==1.35.68
-boto3==1.35.80
-uvicorn==0.32.1

@@ -1,29 +1,12 @@
-from fastapi import FastAPI
+from fastapi import APIRouter, FastAPI
 
-from .aws import send_email
-from .schemas import EmailSchema
+from .modules.email.controller import router as email_router
+from .modules.ping.controller import router as ping_router
 
 app = FastAPI()
 
+api_router = APIRouter(prefix="/api")
+api_router.include_router(email_router)
+api_router.include_router(ping_router)
 
-@app.get("/api/v1/ping", status_code=200)
-async def ping():
-    """Liveness check endpoint."""
-
-    return {"message": "Email service is running"}
-
-
-@app.post("/api/v1/email/send", status_code=201)
-async def email_route(email: EmailSchema):
-    """Send email endpoint.
-
-    Args:
-        email (EmailSchema): Email to be sent.
-    """
-
-    response = send_email(email)
-
-    return {
-        "message": "Email sent successfully",
-        "message_id": response["MessageId"],
-    }
+app.include_router(api_router)
