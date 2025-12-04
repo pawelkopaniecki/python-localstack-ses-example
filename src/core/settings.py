@@ -9,6 +9,10 @@ class Settings(BaseSettings):
     Attributes:
         ENVIRONMENT (str): Environment in which the application is launched
         AWS_ENDPOINT_URL (str): AWS endpoint URL
+        AWS_ACCESS_KEY_ID (str | None): AWS Access Key ID (provided in local development for LocalStack)
+        AWS_SECRET_ACCESS_KEY (str | None): AWS Secret Access Key (provided in local development for LocalStack)
+        AWS_REGION (str | None): AWS Regino where application is deployed
+        SENDER_EMAIL_ADDRESS (str): Email address from which messages will be sent
     """
 
     model_config = SettingsConfigDict(
