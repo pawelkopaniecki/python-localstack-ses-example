@@ -1,5 +1,7 @@
-from mypy_boto3_ses.client import SESClient
-from mypy_boto3_ses.type_defs import SendEmailResponseTypeDef
+from collections.abc import AsyncIterator
+
+from types_aiobotocore_ses import SESClient
+from types_aiobotocore_ses.type_defs import SendEmailResponseTypeDef
 
 from ...aws.ses import get_ses_client
 from ...core.settings import settings
@@ -11,7 +13,7 @@ class EmailService:
     def __init__(self, ses_client: SESClient):
         self.ses_client = ses_client
 
-    def send_email(
+    async def send_email(
         self, to_address: str, subject: str, message: str
     ) -> SendEmailResponseTypeDef:
         """Send email using AWS SES.
@@ -23,7 +25,7 @@ class EmailService:
             SendEmailResponseTypeDef: AWS SES email response.
         """
 
-        return self.ses_client.send_email(
+        return await self.ses_client.send_email(
             Source=settings.SENDER_EMAIL_ADDRESS,
             Destination={"ToAddresses": [to_address]},
             Message={
@@ -33,7 +35,8 @@ class EmailService:
         )
 
 
-def get_email_service() -> EmailService:
+async def get_email_service() -> AsyncIterator[EmailService]:
     """Dependency injection method for creating new EmailService."""
 
-    return EmailService(ses_client=get_ses_client())
+    async with get_ses_client() as ses_client:
+        yield EmailService(ses_client=ses_client)

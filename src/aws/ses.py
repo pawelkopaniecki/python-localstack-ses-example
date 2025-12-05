@@ -1,23 +1,39 @@
+from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
 from functools import cache
 
-import boto3
-from mypy_boto3_ses.client import SESClient
+from aioboto3 import Session
+from types_aiobotocore_ses import SESClient
 
 from ..core.settings import settings
 
 
 @cache
-def get_ses_client() -> SESClient:
-    """Get cached SES client instance.
+def _get_session() -> Session:
+    """Get cached aioboto3 session instance.
 
     Returns:
-        SESClient: Boto3 SES client instance.
+        Session: Cached aioboto3 Session instance.
     """
 
-    return boto3.client(
+    return Session()
+
+
+@asynccontextmanager
+async def get_ses_client() -> AsyncIterator[SESClient]:
+    """Get SES client instance with async context manager.
+
+    Yields:
+        SESClient: Aioboto3 SES client instance.
+    """
+
+    session = _get_session()
+
+    async with session.client(
         service_name="ses",
         region_name=settings.AWS_REGION,
         endpoint_url=settings.AWS_ENDPOINT_URL,
         aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
         aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
-    )
+    ) as client:
+        yield client

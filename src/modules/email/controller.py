@@ -18,7 +18,7 @@ async def email_route(
         ses_client (SESClient): Boto3 SES client instance.
     """
 
-    response = email_service.send_email(
+    response = await email_service.send_email(
         request.address, request.subject, request.message
     )
 
