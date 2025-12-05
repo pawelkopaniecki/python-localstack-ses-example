@@ -21,10 +21,10 @@ def _get_session() -> Session:
 
 @asynccontextmanager
 async def get_ses_client() -> AsyncIterator[SESClient]:
-    """Get SES client instance with async context manager.
+    """Get SES client instance.
 
     Yields:
-        SESClient: Aioboto3 SES client instance.
+        SESClient: SES client instance.
     """
 
     session = _get_session()
