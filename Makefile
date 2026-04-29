@@ -4,6 +4,9 @@ run:
 install:
 	uv sync
 
+audit:
+	uv audit
+
 docker-run:
 	docker compose -f ./docker/compose.yaml up -d --build 
 

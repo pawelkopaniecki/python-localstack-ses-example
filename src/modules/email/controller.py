@@ -3,10 +3,10 @@ from fastapi import APIRouter, Depends
 from .schemas.email import EmailRequestSchema, EmailResponseSchema
 from .service import EmailService, get_email_service
 
-router = APIRouter(prefix="/v1/email", tags=["email"])
+router_v1 = APIRouter(prefix="/v1/email", tags=["email"])
 
 
-@router.post("/send", response_model=EmailResponseSchema)
+@router_v1.post("", response_model=EmailResponseSchema)
 async def email_route(
     request: EmailRequestSchema,
     email_service: EmailService = Depends(get_email_service),

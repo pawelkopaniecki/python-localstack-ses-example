@@ -23,10 +23,10 @@ class Settings(BaseSettings):
 
     ENVIRONMENT: str
     AWS_ENDPOINT_URL: str
-    AWS_ACCESS_KEY_ID: str | None
-    AWS_SECRET_ACCESS_KEY: str | None
-    AWS_REGION: str | None
     SENDER_EMAIL_ADDRESS: str
+    AWS_ACCESS_KEY_ID: str | None = None
+    AWS_SECRET_ACCESS_KEY: str | None = None
+    AWS_REGION: str | None = None
 
 
 settings = Settings()  # type: ignore[call-arg]
