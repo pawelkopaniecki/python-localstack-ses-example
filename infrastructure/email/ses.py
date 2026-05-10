@@ -5,7 +5,7 @@ from functools import cache
 from aioboto3 import Session
 from types_aiobotocore_ses import SESClient
 
-from ..core.settings import settings
+from ...src.settings import settings
 
 
 @cache

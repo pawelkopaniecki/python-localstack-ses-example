@@ -3,8 +3,8 @@ from collections.abc import AsyncIterator
 from types_aiobotocore_ses import SESClient
 from types_aiobotocore_ses.type_defs import SendEmailResponseTypeDef
 
-from ...aws.ses import get_ses_client
-from ...core.settings import settings
+from ....infrastructure.email.ses import get_ses_client
+from ...settings import settings
 
 
 class EmailService:
